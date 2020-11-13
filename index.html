@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RockPaperSissors</title>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <button onclick="game()">Lets play Rock Paper Scissors!</button>
+
+    <script>
+      const rock = "rock";
+      const paper = "paper";
+      const scissors = "scissors";
+      let computerSelection = computerPlay();
+      let pCount = 0;
+      let cCount = 0;
+      function computerPlay() {
+        let cpuChoice = Math.floor(Math.random() * 4);
+        if (cpuChoice === 1) {
+          return rock;
+        } else if (cpuChoice === 2) {
+          return paper;
+        } else {
+          return scissors;
+        }
+      }
+
+      function game() {
+        let letsPlay = prompt(
+          "Lets play a multi-round game of rock paper scissors!  How many rounds do you want to play?"
+        );
+        if (Number.isInteger(+letsPlay)) {
+          console.log(letsPlay);
+          let y = 0;
+          while (y < letsPlay) {
+            if (y < 1) {
+              playerPrompt = prompt("Please choose rock, paper, or scissors.");
+            } else {
+              playerPrompt = prompt(
+                `Round # ${y} Results: Player: ${pCount}, CPU: ${cCount}.\nRound ${
+                  y + 1
+                }: Please choose rock, paper, or scissors.`
+              );
+            }
+            playerSelection = playerPrompt.toLowerCase();
+            computerSelection = computerPlay();
+            document.write(
+              `Round ${y + 1}: Player chose: ${playerSelection}.<br>`
+            );
+            document.write(
+              `Round ${y + 1}: CPU chose: ${computerSelection}.<br>`
+            );
+            if (
+              playerSelection == "rock" ||
+              playerSelection == "paper" ||
+              playerSelection == "scissors"
+            ) {
+              playRound(playerSelection, computerSelection);
+              y++;
+            } else {
+              document.write(
+                `<em>Round ${y + 1}: Invalid Entry.  Try again.</em><br><br>`
+              );
+            }
+          }
+
+          if (pCount > cCount) {
+            document.write(
+              `<strong>Overall Results... You win!  Player: ${pCount}, CPU: ${cCount}.</strong><br><br>`
+            );
+            pCount = 0;
+            cCount = 0;
+            document.write(`<button onclick="game()">Play Again?</button>`);
+          } else if (cCount > pCount) {
+            document.write(
+              `<strong>Overall Results... You lose!  Player: ${pCount}, CPU: ${cCount}.</strong><br><br>`
+            );
+            pCount = 0;
+            cCount = 0;
+            document.write(`<button onclick="game()">Play Again?</button>`);
+          } else {
+            document.write(
+              `<strong>Overall Results... Tie Game!  Player: ${pCount}, CPU: ${cCount}.</strong><br><br>`
+            );
+            pCount = 0;
+            cCount = 0;
+            document.write(
+              `<button onclick="game()">Play Again?</button><br><br>`
+            );
+          }
+        }
+      }
+
+      function playRound(playerSelection, computerSelection) {
+        if (playerSelection === "rock" && computerSelection === "rock") {
+          return document.write(`<strong>Tie!</strong><br><br>`);
+        } else if (
+          playerSelection === "rock" &&
+          computerSelection === "paper"
+        ) {
+          cCount++;
+          return document.write(
+            `<strong>You lose!  Paper beats Rock.</strong><br><br>`
+          );
+        } else if (
+          playerSelection === "rock" &&
+          computerSelection === "scissors"
+        ) {
+          pCount++;
+          return document.write(
+            `<strong>You win!  Rock beats Scissors.</strong><br><br>`
+          );
+        } else if (
+          playerSelection === "paper" &&
+          computerSelection === "paper"
+        ) {
+          return document.write(`<strong>Tie!</strong><br><br>`);
+        } else if (
+          playerSelection === "paper" &&
+          computerSelection === "scissors"
+        ) {
+          cCount++;
+          return document.write(
+            `<strong>You lose!  Scissors beats Paper.</strong><br><br>`
+          );
+        } else if (
+          playerSelection === "paper" &&
+          computerSelection === "rock"
+        ) {
+          pCount++;
+          return document.write(
+            `<strong>You win!  Paper beats Rock.</strong><br><br>`
+          );
+        } else if (
+          playerSelection === "scissors" &&
+          computerSelection === "scissors"
+        ) {
+          return document.write(`<strong>Tie!</strong><br><br>`);
+        } else if (
+          playerSelection === "scissors" &&
+          computerSelection === "rock"
+        ) {
+          cCount++;
+          return document.write(
+            `<strong>You lose!  Rock beats Scissors.</strong><br><br>`
+          );
+        } else {
+          pCount++;
+          return document.write(
+            `<strong>You win!  Scissors beats Paper.</strong><br><br>`
+          );
+        }
+      }
+    </script>
+  </body>
+</html>
