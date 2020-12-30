@@ -1,156 +1,196 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>RockPaperSissors</title>
-    <meta charset="UTF-8" />
-  </head>
-  <body>
-    <button onclick="game()">Lets play Rock Paper Scissors!</button>
+<head>
+  <title>RockPaperSissors</title>
+  <meta charset="UTF-8"/>
+  <style>
+	  .header {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	  }
+	  .gameboard {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+		min-height: 40vh;
+	  }
+	  .scoreboard {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	  }
+	  .gamebutton {
+		width: 25%;
+		height: 25%;
+		padding: 5px;
+	  }
+	  .clicked {
+		transform: scale(1.1);
+		border-color: #243dcc;
+		box-shadow: 0 0 1rem #243dcc;
+	  }
+	  #rock {
+	  }
+	  #paper {
+	  }
+	  #scissors {
+	  }
+  </style>
+</head>
+<body>
+	<div class="header">
+		<h1>Rock, Paper, Scissors</h1>
+		<h2>Choose your weapon.</h2>
+	</div>
+	<div class="gameboard">
+		<img src="images/rock.jpg" alt="rock" class="gamebutton" id="rock">
+		<img src="images/paper.jpg" alt="paper" class="gamebutton" id="paper">
+		<img src="images/scissors.jpg" alt="scissors" class="gamebutton" id="scissors">
+	</div>
+	<div class="scoreboard">
+		<h1>Round #<span id="roundNumber">0</span></h1>
+		<strong>CPU Score: <span id="cpuScore">0</span></strong>
+		<strong>Player Score: <span id="playerScore">0</span></strong>
+		<h2>Last Round:</h2>
+		<strong><span id="gameResult"></span></strong>
+		<strong>CPU: <span id="cpuPick"></span></strong>
+		<strong>Player: <span id="playerPick"></span></strong>
+	</div>
 
-    <script>
-      const rock = "rock";
-      const paper = "paper";
-      const scissors = "scissors";
-      let computerSelection = computerPlay();
-      let pCount = 0;
-      let cCount = 0;
-      function computerPlay() {
-        let cpuChoice = Math.floor(Math.random() * 4);
-        if (cpuChoice === 1) {
-          return rock;
-        } else if (cpuChoice === 2) {
-          return paper;
-        } else {
-          return scissors;
-        }
-      }
+  <script>
+  	const rock = "rock";
+  	const paper = "paper";
+  	const scissors = "scissors";
+    let pCount = 0;
+	let cCount = 0;
+	let round = 0;
+	var roundNumber = document.getElementById("roundNumber");
+	var gameResult = document.getElementById("gameResult");
+	var cpuScore = document.getElementById("cpuScore");
+	var playerScore = document.getElementById("playerScore");
+	var cpuPick = document.getElementById("cpuPick");
+	var playerPick = document.getElementById("playerPick");
+	var rockButton = document.getElementById('rock');
+	var paperButton = document.getElementById('paper');
+	var scissorsButton = document.getElementById('scissors');
 
-      function game() {
-        let letsPlay = prompt(
-          "Lets play a multi-round game of rock paper scissors!  How many rounds do you want to play?"
-        );
-        if (Number.isInteger(+letsPlay)) {
-          console.log(letsPlay);
-          let y = 0;
-          while (y < letsPlay) {
-            if (y < 1) {
-              playerPrompt = prompt("Please choose rock, paper, or scissors.");
-            } else {
-              playerPrompt = prompt(
-                `Round # ${y} Results: Player: ${pCount}, CPU: ${cCount}.\nRound ${
-                  y + 1
-                }: Please choose rock, paper, or scissors.`
-              );
-            }
-            playerSelection = playerPrompt.toLowerCase();
-            computerSelection = computerPlay();
-            document.write(
-              `Round ${y + 1}: Player chose: ${playerSelection}.<br>`
-            );
-            document.write(
-              `Round ${y + 1}: CPU chose: ${computerSelection}.<br>`
-            );
-            if (
-              playerSelection == "rock" ||
-              playerSelection == "paper" ||
-              playerSelection == "scissors"
-            ) {
-              playRound(playerSelection, computerSelection);
-              y++;
-            } else {
-              document.write(
-                `<em>Round ${y + 1}: Invalid Entry.  Try again.</em><br><br>`
-              );
-            }
-          }
+	rockButton.onclick = function() {
+    	let computerSelection = computerPlay();
+		playRound(this.id, computerSelection);
+		rockButton.classList.add('clicked');
+		setTimeout(function(){ rockButton.classList.remove('clicked'); }, 150);
+	};
 
-          if (pCount > cCount) {
-            document.write(
-              `<strong>Overall Results... You win!  Player: ${pCount}, CPU: ${cCount}.</strong><br><br>`
-            );
-            pCount = 0;
-            cCount = 0;
-            document.write(`<button onclick="game()">Play Again?</button>`);
-          } else if (cCount > pCount) {
-            document.write(
-              `<strong>Overall Results... You lose!  Player: ${pCount}, CPU: ${cCount}.</strong><br><br>`
-            );
-            pCount = 0;
-            cCount = 0;
-            document.write(`<button onclick="game()">Play Again?</button>`);
-          } else {
-            document.write(
-              `<strong>Overall Results... Tie Game!  Player: ${pCount}, CPU: ${cCount}.</strong><br><br>`
-            );
-            pCount = 0;
-            cCount = 0;
-            document.write(
-              `<button onclick="game()">Play Again?</button><br><br>`
-            );
-          }
-        }
-      }
+	paperButton.onclick = function() {
+    	let computerSelection = computerPlay();
+		playRound(this.id, computerSelection);
+    	paperButton.classList.add('clicked');
+		setTimeout(function(){ paperButton.classList.remove('clicked'); }, 150);
+	};
 
-      function playRound(playerSelection, computerSelection) {
-        if (playerSelection === "rock" && computerSelection === "rock") {
-          return document.write(`<strong>Tie!</strong><br><br>`);
-        } else if (
-          playerSelection === "rock" &&
-          computerSelection === "paper"
-        ) {
-          cCount++;
-          return document.write(
-            `<strong>You lose!  Paper beats Rock.</strong><br><br>`
-          );
-        } else if (
-          playerSelection === "rock" &&
-          computerSelection === "scissors"
-        ) {
-          pCount++;
-          return document.write(
-            `<strong>You win!  Rock beats Scissors.</strong><br><br>`
-          );
-        } else if (
-          playerSelection === "paper" &&
-          computerSelection === "paper"
-        ) {
-          return document.write(`<strong>Tie!</strong><br><br>`);
-        } else if (
-          playerSelection === "paper" &&
-          computerSelection === "scissors"
-        ) {
-          cCount++;
-          return document.write(
-            `<strong>You lose!  Scissors beats Paper.</strong><br><br>`
-          );
-        } else if (
-          playerSelection === "paper" &&
-          computerSelection === "rock"
-        ) {
-          pCount++;
-          return document.write(
-            `<strong>You win!  Paper beats Rock.</strong><br><br>`
-          );
-        } else if (
-          playerSelection === "scissors" &&
-          computerSelection === "scissors"
-        ) {
-          return document.write(`<strong>Tie!</strong><br><br>`);
-        } else if (
-          playerSelection === "scissors" &&
-          computerSelection === "rock"
-        ) {
-          cCount++;
-          return document.write(
-            `<strong>You lose!  Rock beats Scissors.</strong><br><br>`
-          );
-        } else {
-          pCount++;
-          return document.write(
-            `<strong>You win!  Scissors beats Paper.</strong><br><br>`
-          );
-        }
-      }
-    </script>
-  </body>
+	scissorsButton.onclick = function() {
+    	let computerSelection = computerPlay();
+		playRound(this.id, computerSelection);
+    	scissorsButton.classList.add('clicked');
+		setTimeout(function(){ scissorsButton.classList.remove('clicked'); }, 150);
+	};
+
+    function computerPlay() {
+    	let cpuChoice = Math.floor(Math.random() * 4);
+    	if (cpuChoice === 1) {
+    		return rock;
+    	} else if (cpuChoice === 2) {
+    		return paper;
+    	} else {
+    		return scissors;
+    	}
+	}
+    
+    function playRound(playerSelection, computerSelection) {
+    if (playerSelection === "rock" && computerSelection === "rock") {
+		round++;
+		roundNumber.textContent = `${round}`;
+		gameResult.textContent = "Tie Game!  Both CPU and Player chose Rock!";
+		cpuPick.textContent = "Rock";
+		playerPick.textContent = "Rock";
+    	} else if (playerSelection === "rock" && computerSelection === "paper") {
+		cCount++;
+		round++;
+		roundNumber.textContent = `${round}`;
+		cpuScore.textContent = `${cCount}`;
+		gameResult.textContent = "CPU Wins!";
+		cpuPick.textContent = "Paper";
+		playerPick.textContent = "Rock";
+    	} else if (playerSelection === "rock" && computerSelection === "scissors") {
+    	pCount++;
+		round++;
+		roundNumber.textContent = `${round}`;
+		playerScore.textContent = `${pCount}`;
+		gameResult.textContent = "Player Wins!";
+		cpuPick.textContent = "Scissors";
+		playerPick.textContent = "Rock";
+    	} else if (playerSelection === "paper" && computerSelection === "paper") {
+		round++;
+		roundNumber.textContent = `${round}`;
+		gameResult.textContent = "Tie Game!  Both CPU and Player chose Paper!";
+		cpuPick.textContent = "Paper";
+		playerPick.textContent = "Paper";
+    	} else if (playerSelection === "paper" && computerSelection === "scissors") {
+    	cCount++;
+		round++;
+		roundNumber.textContent = `${round}`;
+		cpuScore.textContent = `${cCount}`;
+		gameResult.textContent = "CPU Wins!";
+		cpuPick.textContent = "Scissors";
+		playerPick.textContent = "Paper";
+    	} else if (playerSelection === "paper" && computerSelection === "rock") {
+    	pCount++;
+		round++;
+		roundNumber.textContent = `${round}`;
+		playerScore.textContent = `${pCount}`;
+		gameResult.textContent = "Player Wins!";
+		cpuPick.textContent = "Rock";
+		playerPick.textContent = "Paper";
+    	} else if (playerSelection === "scissors" && computerSelection === "scissors") {
+		round++;
+		roundNumber.textContent = `${round}`;
+		gameResult.textContent = "Tie Game!  Both CPU and Player chose Scissors!";
+		cpuPick.textContent = "Scissors";
+		playerPick.textContent = "Scissors";
+    	} else if (playerSelection === "scissors" && computerSelection === "rock") {
+    	cCount++;
+		round++;
+		roundNumber.textContent = `${round}`;
+		cpuScore.textContent = `${cCount}`;
+		gameResult.textContent = "CPU Wins!";
+		cpuPick.textContent = "Rock";
+		playerPick.textContent = "Scissors";
+    	} else if (playerSelection === "scissors" && computerSelection === "paper") {
+    	pCount++;
+		round++;
+		roundNumber.textContent = `${round}`;
+		playerScore.textContent = `${pCount}`;
+		gameResult.textContent = "Player Wins!";
+		cpuPick.textContent = "Paper";
+		playerPick.textContent = "Scissors";
+		}
+	}
+
+	function removeTransition(e) {
+    if(e.propertyName !== 'transform') return; //cancels if not the transform
+    console.log(e.propertyName);
+    this.classList.remove('clicked');
+	}
+	  
+  const gamebuttons = document.querySelectorAll('.gamebutton');
+  gamebuttons.forEach(rockButton => rockButton.addEventListener('transitionend', removeTransition));
+  gamebuttons.forEach(paperButton => rockButton.addEventListener('transitionend', removeTransition));
+  gamebuttons.forEach(scissorsButton => rockButton.addEventListener('transitionend', removeTransition));
+  </script>
+</body>
 </html>
