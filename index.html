@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>RockPaperSissors</title>
+  <title>RockPaperScissors</title>
   <meta charset="UTF-8"/>
   <style>
 	  .header {
@@ -34,12 +34,6 @@
 		border-color: #243dcc;
 		box-shadow: 0 0 1rem #243dcc;
 	  }
-	  #rock {
-	  }
-	  #paper {
-	  }
-	  #scissors {
-	  }
   </style>
 </head>
 <body>
@@ -56,8 +50,7 @@
 		<h1>Round #<span id="roundNumber">0</span></h1>
 		<strong>CPU Score: <span id="cpuScore">0</span></strong>
 		<strong>Player Score: <span id="playerScore">0</span></strong>
-		<h2>Last Round:</h2>
-		<strong><span id="gameResult"></span></strong>
+		<h2>Last Round: <span id="gameResult"></span></h2>
 		<strong>CPU: <span id="cpuPick"></span></strong>
 		<strong>Player: <span id="playerPick"></span></strong>
 	</div>
@@ -78,6 +71,11 @@
 	var rockButton = document.getElementById('rock');
 	var paperButton = document.getElementById('paper');
 	var scissorsButton = document.getElementById('scissors');
+
+	function removeTransition(e) {
+		if(e.propertyName !== 'transform') return; //cancels if not the transform
+		this.classList.remove('clicked');
+	}
 
 	rockButton.onclick = function() {
     	let computerSelection = computerPlay();
@@ -112,81 +110,75 @@
 	}
     
     function playRound(playerSelection, computerSelection) {
-    if (playerSelection === "rock" && computerSelection === "rock") {
-		round++;
-		roundNumber.textContent = `${round}`;
-		gameResult.textContent = "Tie Game!  Both CPU and Player chose Rock!";
-		cpuPick.textContent = "Rock";
-		playerPick.textContent = "Rock";
+    	if (playerSelection === "rock" && computerSelection === "rock") {
+			round++;
+			roundNumber.textContent = `${round}`;
+			gameResult.textContent = "Tie Game!  Both CPU and Player chose Rock!";
+			cpuPick.textContent = "Rock";
+			playerPick.textContent = "Rock";
     	} else if (playerSelection === "rock" && computerSelection === "paper") {
-		cCount++;
-		round++;
-		roundNumber.textContent = `${round}`;
-		cpuScore.textContent = `${cCount}`;
-		gameResult.textContent = "CPU Wins!";
-		cpuPick.textContent = "Paper";
-		playerPick.textContent = "Rock";
+			cCount++;
+			round++;
+			roundNumber.textContent = `${round}`;
+			cpuScore.textContent = `${cCount}`;
+			gameResult.textContent = "CPU Wins!";
+			cpuPick.textContent = "Paper";
+			playerPick.textContent = "Rock";
     	} else if (playerSelection === "rock" && computerSelection === "scissors") {
-    	pCount++;
-		round++;
-		roundNumber.textContent = `${round}`;
-		playerScore.textContent = `${pCount}`;
-		gameResult.textContent = "Player Wins!";
-		cpuPick.textContent = "Scissors";
-		playerPick.textContent = "Rock";
+			pCount++;
+			round++;
+			roundNumber.textContent = `${round}`;
+			playerScore.textContent = `${pCount}`;
+			gameResult.textContent = "Player Wins!";
+			cpuPick.textContent = "Scissors";
+			playerPick.textContent = "Rock";
     	} else if (playerSelection === "paper" && computerSelection === "paper") {
-		round++;
-		roundNumber.textContent = `${round}`;
-		gameResult.textContent = "Tie Game!  Both CPU and Player chose Paper!";
-		cpuPick.textContent = "Paper";
-		playerPick.textContent = "Paper";
+			round++;
+			roundNumber.textContent = `${round}`;
+			gameResult.textContent = "Tie Game!  Both CPU and Player chose Paper!";
+			cpuPick.textContent = "Paper";
+			playerPick.textContent = "Paper";
     	} else if (playerSelection === "paper" && computerSelection === "scissors") {
-    	cCount++;
-		round++;
-		roundNumber.textContent = `${round}`;
-		cpuScore.textContent = `${cCount}`;
-		gameResult.textContent = "CPU Wins!";
-		cpuPick.textContent = "Scissors";
-		playerPick.textContent = "Paper";
+			cCount++;
+			round++;
+			roundNumber.textContent = `${round}`;
+			cpuScore.textContent = `${cCount}`;
+			gameResult.textContent = "CPU Wins!";
+			cpuPick.textContent = "Scissors";
+			playerPick.textContent = "Paper";
     	} else if (playerSelection === "paper" && computerSelection === "rock") {
-    	pCount++;
-		round++;
-		roundNumber.textContent = `${round}`;
-		playerScore.textContent = `${pCount}`;
-		gameResult.textContent = "Player Wins!";
-		cpuPick.textContent = "Rock";
-		playerPick.textContent = "Paper";
+			pCount++;
+			round++;
+			roundNumber.textContent = `${round}`;
+			playerScore.textContent = `${pCount}`;
+			gameResult.textContent = "Player Wins!";
+			cpuPick.textContent = "Rock";
+			playerPick.textContent = "Paper";
     	} else if (playerSelection === "scissors" && computerSelection === "scissors") {
-		round++;
-		roundNumber.textContent = `${round}`;
-		gameResult.textContent = "Tie Game!  Both CPU and Player chose Scissors!";
-		cpuPick.textContent = "Scissors";
-		playerPick.textContent = "Scissors";
+			round++;
+			roundNumber.textContent = `${round}`;
+			gameResult.textContent = "Tie Game!  Both CPU and Player chose Scissors!";
+			cpuPick.textContent = "Scissors";
+			playerPick.textContent = "Scissors";
     	} else if (playerSelection === "scissors" && computerSelection === "rock") {
-    	cCount++;
-		round++;
-		roundNumber.textContent = `${round}`;
-		cpuScore.textContent = `${cCount}`;
-		gameResult.textContent = "CPU Wins!";
-		cpuPick.textContent = "Rock";
-		playerPick.textContent = "Scissors";
+			cCount++;
+			round++;
+			roundNumber.textContent = `${round}`;
+			cpuScore.textContent = `${cCount}`;
+			gameResult.textContent = "CPU Wins!";
+			cpuPick.textContent = "Rock";
+			playerPick.textContent = "Scissors";
     	} else if (playerSelection === "scissors" && computerSelection === "paper") {
-    	pCount++;
-		round++;
-		roundNumber.textContent = `${round}`;
-		playerScore.textContent = `${pCount}`;
-		gameResult.textContent = "Player Wins!";
-		cpuPick.textContent = "Paper";
-		playerPick.textContent = "Scissors";
+			pCount++;
+			round++;
+			roundNumber.textContent = `${round}`;
+			playerScore.textContent = `${pCount}`;
+			gameResult.textContent = "Player Wins!";
+			cpuPick.textContent = "Paper";
+			playerPick.textContent = "Scissors";
 		}
 	}
 
-	function removeTransition(e) {
-    if(e.propertyName !== 'transform') return; //cancels if not the transform
-    console.log(e.propertyName);
-    this.classList.remove('clicked');
-	}
-	  
   const gamebuttons = document.querySelectorAll('.gamebutton');
   gamebuttons.forEach(rockButton => rockButton.addEventListener('transitionend', removeTransition));
   gamebuttons.forEach(paperButton => rockButton.addEventListener('transitionend', removeTransition));
